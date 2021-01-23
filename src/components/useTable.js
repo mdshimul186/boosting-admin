@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { Table, TableHead, TableRow, TableCell, makeStyles, TablePagination, TableSortLabel } from '@material-ui/core'
+import { makeStyles, Table, TableCell, TableHead, TablePagination, TableRow, TableSortLabel } from '@material-ui/core';
+import React, { useState } from 'react';
 
 const useStyles = makeStyles(theme => ({
     table: {
@@ -77,6 +77,7 @@ export default function useTable(records, headCells,filterFn) {
         page={page}
         rowsPerPageOptions={pages}
         rowsPerPage={rowsPerPage}
+        labelRowsPerPage={'Items Per Page:'}
         count={records.length}
         onChangePage={handleChangePage}
         onChangeRowsPerPage={handleChangeRowsPerPage}

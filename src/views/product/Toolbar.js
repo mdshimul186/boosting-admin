@@ -1,24 +1,16 @@
-import React,{useState} from 'react';
-import PropTypes from 'prop-types';
-import clsx from 'clsx';
 import {
   Box,
   Button,
-  Card,
-  CardContent,
-  TextField,
-  InputAdornment,
-  SvgIcon,
   Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
+  DialogActions, DialogContent, DialogTitle,
   makeStyles
 } from '@material-ui/core';
-import { Search as SearchIcon } from 'react-feather';
 import Backdrop from '@material-ui/core/Backdrop';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import axios from 'axios'
+import axios from 'axios';
+import clsx from 'clsx';
+import PropTypes from 'prop-types';
+import React, { useState } from 'react';
 
 const useStyles = makeStyles((theme) => ({
   root: {},
@@ -112,31 +104,7 @@ const Toolbar = ({handleDrawer, className,sendBulk, ...rest }) => {
           Add product
         </Button>
       </Box>
-      <Box mt={3}>
-        <Card>
-          <CardContent>
-            <Box maxWidth={500}>
-              <TextField
-                fullWidth
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <SvgIcon
-                        fontSize="small"
-                        color="action"
-                      >
-                        <SearchIcon />
-                      </SvgIcon>
-                    </InputAdornment>
-                  )
-                }}
-                placeholder="Search product"
-                variant="outlined"
-              />
-            </Box>
-          </CardContent>
-        </Card>
-      </Box>
+      
     </div>
     <Backdrop style={{zIndex:"999999"}} open={loading}>
         <CircularProgress color="inherit" />

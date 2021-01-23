@@ -3,19 +3,19 @@ import { Navigate } from 'react-router-dom';
 import DashboardLayout from 'src/layouts/DashboardLayout';
 import MainLayout from 'src/layouts/MainLayout';
 import AccountView from 'src/views/account/AccountView';
-import CustomerListView from 'src/views/customer/CustomerListView';
-import DashboardView from 'src/views/reports/DashboardView';
-import LoginView from 'src/views/auth/LoginView';
-import NotFoundView from 'src/views/errors/NotFoundView';
-import ProductListView from 'src/views/product/ProductListView';
 import Articles from 'src/views/article';
+import LoginView from 'src/views/auth/LoginView';
 import RegisterView from 'src/views/auth/RegisterView';
+import CaterogyList from 'src/views/category';
+import CustomerListView from 'src/views/customer/CustomerListView';
+import NotFoundView from 'src/views/errors/NotFoundView';
+import OrderList from 'src/views/order';
+import ProductListView from 'src/views/product';
+import DashboardView from 'src/views/reports/DashboardView';
 import SettingsView from 'src/views/settings/SettingsView';
-import CaterogyList from 'src/views/category'; 
-import LayoutSetting from 'src/views/SiteLayoutSetting'; 
-import OrderList from 'src/views/order'; 
-import OurWorks from './views/ourworks';
+import LayoutSetting from 'src/views/SiteLayoutSetting';
 import Freelancers from './views/freelancers';
+import OurWorks from './views/ourworks';
 
 const routes = [
   {

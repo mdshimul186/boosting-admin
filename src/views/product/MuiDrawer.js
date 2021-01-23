@@ -73,7 +73,10 @@ export default function MuiDrawer({ isOpen, setIsOpen, selecetedProduct, toggleD
   const [VAT, setVAT] = useState("")
   const [category, setCategory] = useState("")
   const [subCategory, setSubCategory] = useState("")
+
   const [selectedImages, setSelectedImages] = useState([])
+  const [productImages, setProductImages] = useState(null)
+  const [changeImage, setChangeImage] = useState(true)
 
   const [isEdit, setIsEdit] = useState(false)
 
@@ -113,7 +116,9 @@ export default function MuiDrawer({ isOpen, setIsOpen, selecetedProduct, toggleD
       setSKU(selecetedProduct.SKU)
       setVAT(selecetedProduct.VAT)
       setCategory(selecetedProduct.category?._id||'')
+      setProductImages(selecetedProduct.productImages)
       handleSetCat(selecetedProduct.category)
+      setChangeImage(false)
       
     } else {
       setIsEdit(false)
@@ -125,6 +130,9 @@ export default function MuiDrawer({ isOpen, setIsOpen, selecetedProduct, toggleD
       setVAT('')
       setCategory('')
       setSubCategory('')
+      setProductImages(null)
+      setSelectedImages([])
+      setChangeImage(true)
     }
 
   }, [selecetedProduct])
@@ -169,23 +177,37 @@ export default function MuiDrawer({ isOpen, setIsOpen, selecetedProduct, toggleD
   }
 
   const handleEdit=(id)=>{
-    console.log(subCategory)
-    if(title === '' || price === ''|| SKU === '' || VAT === '' || !subCategory){
+   
+    if(title === '' || price === '' ||  SKU === '' || VAT === '' || subCategory === ''){
       return alert('please fill all the fields')
     }
+    if(changeImage){
+      if(selectedImages.length === 0){
+        return alert("images are required")
+      }
+  }
     setLoading(true)
-    let data={
-      title,
-      shortDescription,
-      description,
-      price,
-      VAT,
-      SKU,
-      category:subCategory
-    }
-    axios.patch('/product/edit/'+id,data)
+   
+
+
+    let formData = new FormData()
+    formData.append("title", title)
+    formData.append("shortDescription", shortDescription)
+    formData.append("description", description)
+    formData.append("price", price)
+    formData.append("VAT", VAT)
+    formData.append("SKU", SKU)
+    formData.append("category", subCategory)
+
+    if(changeImage){
+      selectedImages.map(img=>{
+          formData.append("productImg", img)
+        })
+  }
+    axios.patch('/product/edit/'+id,formData)
     .then(res => {
       sendEditedProduct(res.data.product)
+      setChangeImage(true)
       setLoading(false)
     })
     .catch(err => {
@@ -210,25 +232,50 @@ export default function MuiDrawer({ isOpen, setIsOpen, selecetedProduct, toggleD
               </Typography>
               
               <Grid container spacing={3}>
-              {
-                !isEdit && (
+             
                   <Grid item xs={12}>
-                  <InputLabel style={{ marginBottom: "10px" }} id="demo-simple-select-label">Select Images</InputLabel>
+                  <InputLabel style={{ marginBottom: "10px" }} id="demo-simple-select-label">Select Images
+                  {productImages &&  <span style={{cursor:"pointer",fontWeight:"bold"}} onClick={()=>setChangeImage(!changeImage)}>{changeImage ? '(cancel)':'(change)'}</span>}
+                  </InputLabel>
                   <div className={classes.imageContainer}>
-                    {
+                    {/* {
                       selectedImages.length > 0 && selectedImages.map((img, index) => {
                         return (
                           <img className={classes.imageSize} key={index} src={URL.createObjectURL(img)}></img>
                         )
                       })
-                    }
-                    <label className={classes.fileLabel} htmlFor='serviceimage'><AddIcon /></label>
+                    } */}
+                    {
+                                !changeImage && productImages ? productImages.map((img,index)=>{
+                                    return(
+                                        <img 
+                                            className={classes.imageSize} 
+                                            key={index} 
+                                            src={img}>
 
-                    <input onChange={(e) => setSelectedImages([...selectedImages, e.target.files[0]])} id='serviceimage' type='file' accept='image/*' hidden></input>
+                                        </img>
+                                    )
+                                }):
+                                 selectedImages.length > 0 && selectedImages.map((img, index) => {
+                                        return (
+                                            <img 
+                                            className={classes.imageSize} 
+                                            key={index} 
+                                            src={URL.createObjectURL(img)}>
+
+                                            </img>
+                                        )
+                                    })
+
+                            }
+                    {
+                      changeImage && selectedImages.length < 5 &&
+                      <><label className={classes.fileLabel} htmlFor='serviceimage'><AddIcon /></label>
+                    <input onChange={(e) => setSelectedImages([...selectedImages, e.target.files[0]])} id='serviceimage' type='file' accept='image/*' hidden></input></>
+                    }
                   </div>
                 </Grid>
-                )
-              }
+                
                 
                 <Grid item xs={12}>
                   <TextField
