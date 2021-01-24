@@ -141,7 +141,7 @@ const ProductList = () => {
     >
       <MuiDrawer sendEditedProduct={sendEditedProduct} sendProduct={sendProduct} toggleDrawer={toggleDrawer} selecetedProduct={selecetedProduct} setIsOpen={setIsOpen} isOpen={isOpen} />
       <Container maxWidth={false}>
-        <Toolbar sendBulk={sendBulk} handleDrawer={handleDrawer} />
+        <Toolbar products={records} sendBulk={sendBulk} handleDrawer={handleDrawer} />
         <Box mt={3}>
           <Card>
             <CardContent>

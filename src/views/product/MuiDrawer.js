@@ -247,6 +247,7 @@ export default function MuiDrawer({ isOpen, setIsOpen, selecetedProduct, toggleD
                     } */}
                     {
                                 !changeImage && productImages ? productImages.map((img,index)=>{
+                                  if(img === '') return
                                     return(
                                         <img 
                                             className={classes.imageSize} 
